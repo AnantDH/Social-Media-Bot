@@ -41,6 +41,22 @@ class GglDrivePilot:
         file_metadata = {'name': filename}
         media = MediaFileUpload(filename, mimetype=mimetype)
         file = self.service.files().create(body=file_metadata,
-                                    media_body=media,
-                                    fields='id').execute()
-        print('File ID: %s' % file.get('id'))
+                                           media_body=media,
+                                           fields='id').execute()
+        file_id = file.get('id')
+        print('File ID: %s' % file_id)
+        
+        # Set the file to be sharable
+        permission = {
+            'type': 'anyone',
+            'role': 'reader'
+        }
+        self.service.permissions().create(
+            fileId=file_id,
+            body=permission
+        ).execute()
+        
+        # Get the shareable link
+        file = self.service.files().get(fileId=file_id, fields='webViewLink').execute()
+        shareable_link = file.get('webViewLink')
+        return shareable_link
