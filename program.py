@@ -28,7 +28,12 @@ if __name__ == '__main__':
         # upload necessary files to google drive
         drive = GglDrivePilot()
 
-        drive.upload_file("output.mp3", "audio/mpeg")
+        audio_link = drive.upload_file("output.mp3", "audio/mpeg")
+        video_link = drive.upload_file("testvid.mp4", "video/mp4")
+
+        # print sharable elements link
+        print(f'Sharable audio link: {audio_link}')
+        print(f'Sharable video link: {video_link}')
 
         # start video generation process
         # print("Now generating video...")
