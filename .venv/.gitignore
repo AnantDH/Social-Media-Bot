@@ -1,4 +1,4 @@
 # .gitignore
-config.py
-token.json
-credentials.json
+.\config.py
+.\token.json
+.\credentials.json
