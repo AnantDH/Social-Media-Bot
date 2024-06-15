@@ -1,4 +1,5 @@
 # config.py stores all secret API keys
+# google cloud keys are contained within credentials.json
 
 
 # redditscraper keys
