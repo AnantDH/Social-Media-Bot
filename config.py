@@ -1,6 +1,7 @@
 # config.py stores all secret API keys
 # google cloud keys are contained within credentials.json
 
+# test to see if gitignore works
 
 # redditscraper keys
 client_id = 'eJKpPMhgfo_wv5EPKi4yDg'
