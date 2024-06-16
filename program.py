@@ -36,7 +36,7 @@ if __name__ == '__main__':
         print(f'Sharable video link: {video_link}')
 
         # start video generation process
-        # print("Now generating video...")
+        print("Now generating video...")
         # v_generator = VideoGenerator(video_generator_key)
         # project_id = v_generator.generate_video()
         # # wait for generation to start occurring
