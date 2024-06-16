@@ -37,7 +37,7 @@ if __name__ == '__main__':
 
         # start video generation process
         print("Now generating video...")
-        # v_generator = VideoGenerator(video_generator_key)
+        v_generator = VideoGenerator(video_generator_key)
         # project_id = v_generator.generate_video()
         # # wait for generation to start occurring
         # print("Waiting for video generation to occurr..")
