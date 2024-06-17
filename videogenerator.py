@@ -8,7 +8,7 @@ class VideoGenerator:
         self.x_api_key = secret_key
 
 
-    def generate_video(self):
+    def generate_video(self, audio_link, video_link):
         api_url = "https://api.json2video.com/v2/movies"
         headers = {
             "x-api-key": self.x_api_key,
@@ -24,11 +24,11 @@ class VideoGenerator:
                     "elements": [
                         {
                             "type": "video",
-                            "src": "http://localhost:8000/testvid.mp4"
+                            "src": video_link
                         },
                         {
                             "type": "audio",
-                            "src": "http://localhost:8000/tts.mp3"
+                            "src": audio_link
                         }
                     ]
                 }
