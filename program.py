@@ -2,7 +2,7 @@ from config import client_id, client_secret, tts_key, video_generator_key
 from redditscraper import RedditScraper
 from audiogenerator import TtsGenerator
 from drivepilot import GglDrivePilot
-from videogenerator import VideoGenerator
+from videogenerator import VideoGenerator, save_video_to_file
 import time
 import requests
 import sys
@@ -12,7 +12,7 @@ if __name__ == '__main__':
     reddit = RedditScraper(client_id, client_secret, 'Content_Filter_1/0.1 by anant_d_gr8')
     # Get posts and save them to dict
     library = dict()
-    library = reddit.get_controversial("AITAH", 1)
+    library = reddit.get_hot("pettyrevenge", 1)
 
     # Initialize TTS generator
     tts = TtsGenerator(tts_key)
@@ -30,7 +30,7 @@ if __name__ == '__main__':
         drive = GglDrivePilot()
 
         audio_link = drive.upload_file("elements/tts.mp3", "audio/mpeg")
-        video_link = drive.upload_file("elements/testvid.mp4", "video/mp4")
+        video_link = drive.upload_file("elements/minecraft_gameplay.mp4", "video/mp4")
 
         # print sharable elements link
         print(f'Sharable audio link: {audio_link}')
@@ -59,12 +59,4 @@ if __name__ == '__main__':
             sys.exit("No project id returned. Terminating program")
         
         # download the video
-        save_to = "elements/generated_video.mp4"
-        response = requests.get(vid_url, stream=True)
-        if response.status_code == 200:
-            with open(save_to, 'wb') as f:
-                for chunk in response.iter_content(chunk_size=8192):
-                    f.write(chunk)
-            print(f"Video downloaded and savaed successfully to {save_to}")
-        else:
-            print(f"Failed to download video. Status code: {response.status_code}")
+        save_video_to_file("elements/generated_video.mp4", vid_url)
