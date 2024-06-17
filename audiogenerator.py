@@ -18,7 +18,7 @@ class TtsGenerator:
             VOICE_ID = "sASxGd32xItBb17GWuFk"
         
         TEXT_TO_SPEAK = text  # Text you want to convert to speech
-        OUTPUT_PATH = "tts.mp3"  # Path to save the output audio file
+        OUTPUT_PATH = "elements/tts.mp3"  # Path to save the output audio file
 
         # Construct the URL for the Text-to-Speech API request
         tts_url = f"https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}/stream"

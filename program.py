@@ -5,6 +5,7 @@ from drivepilot import GglDrivePilot
 from videogenerator import VideoGenerator
 import time
 import requests
+import sys
 
 if __name__ == '__main__':
     # Initialize Reddit scraper to get posts
@@ -28,8 +29,8 @@ if __name__ == '__main__':
         # upload necessary files to google drive
         drive = GglDrivePilot()
 
-        audio_link = drive.upload_file("output.mp3", "audio/mpeg")
-        video_link = drive.upload_file("testvid.mp4", "video/mp4")
+        audio_link = drive.upload_file("elements/tts.mp3", "audio/mpeg")
+        video_link = drive.upload_file("elements/testvid.mp4", "video/mp4")
 
         # print sharable elements link
         print(f'Sharable audio link: {audio_link}')
@@ -38,26 +39,32 @@ if __name__ == '__main__':
         # start video generation process
         print("Now generating video...")
         v_generator = VideoGenerator(video_generator_key)
-        # project_id = v_generator.generate_video()
-        # # wait for generation to start occurring
-        # print("Waiting for video generation to occurr..")
-        # time.sleep(60)
-        # print("Checking to see if video generation is completed")
-        # if project_id != None:
-        #     vid_url = v_generator.retrieve_response(project_id)
-        # if(vid_url != None):
-        #     print("Video is done!")
-        #     print(vid_url)
-        # else:
-        #     print("Video not done or some other error occurred...")
+        project_id = v_generator.generate_video(audio_link, video_link)
         
-        # # download the video
-        # save_to = "generated_video.mp4"
-        # response = requests.get(vid_url, stream=True)
-        # if response.status_code == 200:
-        #     with open(save_to, 'wb') as f:
-        #         for chunk in response.iter_content(chunk_size=8192):
-        #             f.write(chunk)
-        #     print(f"Video downloaded and savaed successfully to {save_to}")
-        # else:
-        #     print(f"Failed to download video. Status code: {response.status_code}")
+        print("Checking to see if video generation is completed")
+        if project_id != None:
+            # we have a valid project id
+            # give rendering some time
+            time.sleep(40)
+            # continue waiting and checking if vid is finished rendering
+            vid_url = v_generator.retrieve_response(project_id)
+            while(vid_url == None):
+                print("vid url not generated yet. waiting 30 seconds and trying again")
+                time.sleep(30)
+                vid_url = v_generator.retrieve_response(project_id)
+            print("Video is done generating!")
+            print(f"Video url: {vid_url}")
+        else:
+            # no valid project id returned, exit the program
+            sys.exit("No project id returned. Terminating program")
+        
+        # download the video
+        save_to = "elements/generated_video.mp4"
+        response = requests.get(vid_url, stream=True)
+        if response.status_code == 200:
+            with open(save_to, 'wb') as f:
+                for chunk in response.iter_content(chunk_size=8192):
+                    f.write(chunk)
+            print(f"Video downloaded and savaed successfully to {save_to}")
+        else:
+            print(f"Failed to download video. Status code: {response.status_code}")
