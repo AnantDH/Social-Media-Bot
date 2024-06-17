@@ -16,19 +16,34 @@ class VideoGenerator:
         }
 
         json_payload = {
-            "resolution": "full-hd",
-            "quality": "high",
+            "resolution": "custom",
+            "height": 1920,
+            "width": 1080,
+            "quality": "low",
             "scenes": [
                 {
                     "comment": "Scene 1",
                     "elements": [
                         {
-                            "type": "video",
-                            "src": video_link
+                            "type": "audio",
+                            "src": audio_link,
+                            "duration": 59
                         },
                         {
-                            "type": "audio",
-                            "src": audio_link
+                            "type": "video",
+                            "src": video_link,
+                            "duration": -2,
+                            "volume": 0
+                        },
+                        {
+                            "type": "subtitles",
+                            "language": "en",
+                            "settings": {
+                                "font-family": "Luckiest Guy",
+                                "max-words-per-line": 1,
+                                "outline-width": 2,
+                                "position": "center-center"
+                            }
                         }
                     ]
                 }
@@ -70,3 +85,14 @@ class VideoGenerator:
         else:
             print(f"Failed to get a valid response. Status code: {response.status_code}")
             return None
+    
+
+def save_video_to_file(filename, vid_url):
+    response = requests.get(vid_url, stream=True)
+    if response.status_code == 200:
+        with open(filename, 'wb') as f:
+            for chunk in response.iter_content(chunk_size=8192):
+                f.write(chunk)
+        print(f"Video downloaded and savaed successfully to {filename}")
+    else:
+        print(f"Failed to download video. Status code: {response.status_code}")
