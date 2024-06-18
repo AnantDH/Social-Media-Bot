@@ -1,6 +1,7 @@
 import requests
 import json
 import time
+import sys
 
 class VideoGenerator:
 
@@ -17,9 +18,9 @@ class VideoGenerator:
 
         json_payload = {
             "resolution": "custom",
-            "height": 1920,
-            "width": 1080,
-            "quality": "low",
+            "height": 1280,
+            "width": 720,
+            "quality": "high",
             "scenes": [
                 {
                     "comment": "Scene 1",
@@ -27,7 +28,7 @@ class VideoGenerator:
                         {
                             "type": "audio",
                             "src": audio_link,
-                            "duration": 59
+                            "duration": 5
                         },
                         {
                             "type": "video",
@@ -41,7 +42,8 @@ class VideoGenerator:
                             "settings": {
                                 "font-family": "Luckiest Guy",
                                 "max-words-per-line": 1,
-                                "outline-width": 2,
+                                "outline-width": 7,
+                                "font-size": 70,
                                 "position": "center-center"
                             }
                         }
@@ -80,8 +82,9 @@ class VideoGenerator:
             response_data = response.json()
             if response_data["movie"].get("status") == "done":
                 return response_data["movie"].get("url")
-            else:
-                return None
+            elif response_data["movie"].get("status") == "error":
+                print("Something went wrong!")
+                sys.exit("Video status: error")                
         else:
             print(f"Failed to get a valid response. Status code: {response.status_code}")
             return None
