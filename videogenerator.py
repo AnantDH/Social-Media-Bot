@@ -28,7 +28,7 @@ class VideoGenerator:
                         {
                             "type": "audio",
                             "src": audio_link,
-                            "duration": 5
+                            "duration": 58
                         },
                         {
                             "type": "video",
