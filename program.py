@@ -1,10 +1,9 @@
 from config import client_id, client_secret, tts_key, video_generator_key
 from redditscraper import RedditScraper
 from audiogenerator import TtsGenerator
-from drivepilot import GglDrivePilot
+from googleinterface import GglInterface
 from videogenerator import VideoGenerator, save_video_to_file
 import time
-import requests
 import sys
 
 if __name__ == '__main__':
@@ -27,10 +26,10 @@ if __name__ == '__main__':
         # tts.generate_tts(key + body, True)
 
         # upload necessary files to google drive
-        drive = GglDrivePilot()
+        ggl_interface = GglInterface()
 
-        audio_link = drive.upload_file("elements/tts.mp3", "audio/mpeg")
-        video_link = drive.upload_file("elements/minecraft_gameplay.mp4", "video/mp4")
+        audio_link = ggl_interface.upload_file("elements/tts.mp3", "audio/mpeg")
+        video_link = ggl_interface.upload_file("elements/minecraft_gameplay.mp4", "video/mp4")
 
         # print sharable elements link
         print(f'Sharable audio link: {audio_link}')
@@ -60,3 +59,9 @@ if __name__ == '__main__':
         
         # download the video
         save_video_to_file("elements/generated_video.mp4", vid_url)
+
+        # upload the video to youtube
+        youtube_response = ggl_interface.upload_video("elements/generated_video.mp4", "Test Upload #Shorts", "This is a test upload to see if youtube api works", ["Shorts"], "22", "private")
+        print(f"Video ID: {youtube_response.get('id')}")
+
+
