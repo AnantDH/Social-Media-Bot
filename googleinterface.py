@@ -38,7 +38,7 @@ class GglInterface:
         # Call the Drive v3 API to upload a file.
         file_metadata = {'name': filename}
         media = MediaFileUpload(filename, mimetype=mimetype)
-        file = self.service.files().create(body=file_metadata,
+        file = self.drive_service.files().create(body=file_metadata,
                                            media_body=media,
                                            fields='id').execute()
         file_id = file.get('id')
@@ -49,13 +49,13 @@ class GglInterface:
             'type': 'anyone',
             'role': 'reader'
         }
-        self.service.permissions().create(
+        self.drive_service.permissions().create(
             fileId=file_id,
             body=permission
         ).execute()
         
         # Get the shareable link
-        file = self.service.files().get(fileId=file_id, fields='webViewLink').execute()
+        file = self.drive_service.files().get(fileId=file_id, fields='webViewLink').execute()
         shareable_link = file.get('webViewLink')
         return shareable_link
     
