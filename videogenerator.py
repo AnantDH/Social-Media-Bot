@@ -9,7 +9,7 @@ class VideoGenerator:
         self.x_api_key = secret_key
 
 
-    def generate_video(self, title_audio_link, body_audio_link, video_link, curr_vid_start_point, title_length):
+    def generate_video(self, title_audio_link, body_audio_link, video_link, curr_vid_start_point, title_length, part):
         api_url = "https://api.json2video.com/v2/movies"
         headers = {
             "x-api-key": self.x_api_key,
@@ -24,6 +24,7 @@ class VideoGenerator:
             "scenes": [
                 {
                     "comment": "scene 1",
+                    "duration": 2,
                     "elements": [
                         {
                             "type": "audio",
@@ -40,6 +41,23 @@ class VideoGenerator:
                             "type": "audio",
                             "src": body_audio_link,
                             "start": title_length
+                        },
+                        {
+                            "type": "text",
+                            "style": "007",
+                            "x": -60,
+                            "y": -460,
+                            "text": part,
+                            "settings": {
+                                "shadow": 6,
+                                "font-size": "65px",
+                                "font-family": "Karla",
+                                "font-weight": "400"
+                            },
+                            "duration": -2,
+                            "rotate": {
+                                "angle": -15
+                            }
                         },
                         {
                             "type": "subtitles",
