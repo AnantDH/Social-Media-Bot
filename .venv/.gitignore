@@ -1,6 +1,0 @@
-# .gitignore
-.\config.py
-.\token.json
-.\credentials.json
-.\elements/
-.\audiosegments/

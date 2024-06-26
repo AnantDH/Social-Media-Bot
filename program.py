@@ -4,7 +4,6 @@ from audiogenerator import TtsGenerator
 from googleinterface import GglInterface
 from videogenerator import VideoGenerator
 from vidprocessor import save_video_to_file, split_audio, get_audio_length, get_files_in_dir
-import os
 import time
 import sys
 
@@ -58,12 +57,13 @@ def main():
 
     # initialize counter to keep track of where each segment needs to start
     curr_vid_start_point = 0
+    part = 1
     for tts_body_file in tts_body_files:
         # upload the segment of tts body needed for this video
         body_audio_link = ggl_interface.upload_file(tts_body_file, "audio/mpeg")
         print(f'Current body piece video being generated: {body_audio_link}')
 
-        project_id = v_generator.generate_video(title_audio_link, body_audio_link, video_link, curr_vid_start_point, title_length)
+        project_id = v_generator.generate_video(title_audio_link, body_audio_link, video_link, curr_vid_start_point, title_length, f"Part {part}")
         
         print("Checking to see if video generation is completed")
         if project_id != None:
@@ -86,9 +86,12 @@ def main():
         save_video_to_file("elements/generated_video.mp4", vid_url)
 
         # upload the video to youtube
-        youtube_response = ggl_interface.upload_video("elements/generated_video.mp4", "Test Upload #Shorts", "This is a test upload to see if youtube api works", ["Shorts"], "22", "private")
+        youtube_response = ggl_interface.upload_video("elements/generated_video.mp4", f"Part {part}! Like and Subscribe for more #Shorts", "This is a test upload to see if youtube api works", ["Shorts"], "22", "private")
         print(f"Video ID: {youtube_response.get('id')}")
 
+        # adjust counter variables for next loop through
+        curr_vid_start_point += 59.5
+        part += 1
 
 if __name__ == '__main__':
     main()
