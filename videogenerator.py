@@ -88,14 +88,3 @@ class VideoGenerator:
         else:
             print(f"Failed to get a valid response. Status code: {response.status_code}")
             return None
-    
-
-def save_video_to_file(filename, vid_url):
-    response = requests.get(vid_url, stream=True)
-    if response.status_code == 200:
-        with open(filename, 'wb') as f:
-            for chunk in response.iter_content(chunk_size=8192):
-                f.write(chunk)
-        print(f"Video downloaded and savaed successfully to {filename}")
-    else:
-        print(f"Failed to download video. Status code: {response.status_code}")

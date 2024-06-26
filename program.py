@@ -2,66 +2,83 @@ from config import client_id, client_secret, tts_key, video_generator_key
 from redditscraper import RedditScraper
 from audiogenerator import TtsGenerator
 from googleinterface import GglInterface
-from videogenerator import VideoGenerator, save_video_to_file
+from videogenerator import VideoGenerator
+from vidprocessor import save_video_to_file, split_audio, get_audio_length
+
 import time
 import sys
 
-if __name__ == '__main__':
+
+def main():
     # Initialize Reddit scraper to get posts
     reddit = RedditScraper(client_id, client_secret, 'Content_Filter_1/0.1 by anant_d_gr8')
-    # Get posts and save them to dict
-    library = dict()
-    library = reddit.get_hot("pettyrevenge", 1)
+    # Get the hottest post at the moment
+    title, body = reddit.get_hot("AITAH")
 
+    # Generate an MP3 file with the TTS of the story
+    print(title)  # Prints the title of the story to console
+    
+    TITLE_TTS_FILENAME = "elements/title_tts.mp3"
+    STORY_TTS_FILENAME = "elements/story_tts.mp3"
     # Initialize TTS generator
     tts = TtsGenerator(tts_key)
-
     
-    # Loop through stories
-    for key in library:
-        body, score = library[key]
-        # Generate an MP3 file with the TTS of the story
-        print(key)  # Prints the title of the story to console
-        
-        # tts.generate_tts(key + body, True)
+    # Generate a TTS of the story title
+    #tts.generate_tts(title, TITLE_TTS_FILENAME, True)
+    # Generate whole story TTS
+    #tts.generate_tts(body, STORY_TTS_FILENAME, True)
 
-        # upload necessary files to google drive
-        ggl_interface = GglInterface()
+    # Get the length of the title and story in seconds
+    title_length = get_audio_length(TITLE_TTS_FILENAME) / 1000
+    story_length = get_audio_length(STORY_TTS_FILENAME) / 1000
 
-        audio_link = ggl_interface.upload_file("elements/tts.mp3", "audio/mpeg")
-        video_link = ggl_interface.upload_file("elements/minecraft_gameplay.mp4", "video/mp4")
+    # Check if files require splitting to meet 60 second vid length requirement
+    if story_length + title_length > 59.5:
+        needed_story_duration = 59.5 - title_length
+        split_audio(STORY_TTS_FILENAME, needed_story_duration * 1000)
+    
+    
+    sys.exit()
+    # upload necessary files to google drive
+    ggl_interface = GglInterface()
 
-        # print sharable elements link
-        print(f'Sharable audio link: {audio_link}')
-        print(f'Sharable video link: {video_link}')
+    audio_link = ggl_interface.upload_file("elements/tts.mp3", "audio/mpeg")
+    video_link = ggl_interface.upload_file("elements/minecraft_gameplay.mp4", "video/mp4")
 
-        # start video generation process
-        print("Now generating video...")
-        v_generator = VideoGenerator(video_generator_key)
-        project_id = v_generator.generate_video(audio_link, video_link)
-        
-        print("Checking to see if video generation is completed")
-        if project_id != None:
-            # we have a valid project id
-            # give rendering some time
-            time.sleep(40)
-            # continue waiting and checking if vid is finished rendering
+    # print sharable elements link
+    print(f'Sharable audio link: {audio_link}')
+    print(f'Sharable video link: {video_link}')
+
+    # start video generation process
+    print("Now generating video...")
+    v_generator = VideoGenerator(video_generator_key)
+    project_id = v_generator.generate_video(audio_link, video_link)
+    
+    print("Checking to see if video generation is completed")
+    if project_id != None:
+        # we have a valid project id
+        # give rendering some time
+        time.sleep(40)
+        # continue waiting and checking if vid is finished rendering
+        vid_url = v_generator.retrieve_response(project_id)
+        while(vid_url == None):
+            print("vid url not generated yet. waiting 30 seconds and trying again")
+            time.sleep(30)
             vid_url = v_generator.retrieve_response(project_id)
-            while(vid_url == None):
-                print("vid url not generated yet. waiting 30 seconds and trying again")
-                time.sleep(30)
-                vid_url = v_generator.retrieve_response(project_id)
-            print("Video is done generating!")
-            print(f"Video url: {vid_url}")
-        else:
-            # no valid project id returned, exit the program
-            sys.exit("No project id returned. Terminating program")
-        
-        # download the video
-        save_video_to_file("elements/generated_video.mp4", vid_url)
-
-        # upload the video to youtube
-        youtube_response = ggl_interface.upload_video("elements/generated_video.mp4", "Test Upload #Shorts", "This is a test upload to see if youtube api works", ["Shorts"], "22", "private")
-        print(f"Video ID: {youtube_response.get('id')}")
+        print("Video is done generating!")
+        print(f"Video url: {vid_url}")
+    else:
+        # no valid project id returned, exit the program
+        sys.exit("No project id returned. Terminating program")
+    
+    # download the video
+    save_video_to_file("elements/generated_video.mp4", vid_url)
 
 
+    # upload the video to youtube
+    youtube_response = ggl_interface.upload_video("elements/generated_video.mp4", "Test Upload #Shorts", "This is a test upload to see if youtube api works", ["Shorts"], "22", "private")
+    print(f"Video ID: {youtube_response.get('id')}")
+
+
+if __name__ == '__main__':
+    main()
