@@ -20,10 +20,20 @@ class RedditScraper:
     #     return library
     
     
-    def get_hot(self, sub_name):
+    def get_nth_hot(self, sub_name, n):
         subreddit = self.reddit.subreddit(sub_name)
-        submission = next(subreddit.hot(limit=1))
-        return submission.title, submission.selftext
+
+        # Iterate through the hottest posts
+        counter = 1
+        for submission in subreddit.hot(limit=n+5):
+            if not submission.stickied:
+                if counter == n:
+                    # Return the non-pinned (non-stickied) post
+                    return submission.title, submission.selftext
+                else:
+                    counter += 1
+        # If no non-pinned post is found, return None
+        return None
     
 
     # def get_hot(self, sub_name, num_posts):

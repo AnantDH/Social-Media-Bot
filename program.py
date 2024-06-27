@@ -1,8 +1,9 @@
-from config import client_id, client_secret, tts_key, video_generator_key
+from config import client_id, client_secret, tts_key, video_generator_key, openai_key
 from redditscraper import RedditScraper
 from audiogenerator import TtsGenerator
 from googleinterface import GglInterface
 from videogenerator import VideoGenerator
+from openai_client import GptInterface
 from vidprocessor import save_video_to_file, split_audio, get_audio_length, get_files_in_dir
 import time
 import sys
@@ -12,20 +13,26 @@ def main():
     # Initialize Reddit scraper to get posts
     reddit = RedditScraper(client_id, client_secret, 'Content_Filter_1/0.1 by anant_d_gr8')
     # Get the hottest post at the moment
-    title, body = reddit.get_hot("AITAH")
+    title, body = reddit.get_nth_hot("AITAH", 3)
 
     # Generate an MP3 file with the TTS of the story
     print(title)  # Prints the title of the story to console
-    
+
     TITLE_TTS_FILENAME = "elements/title_tts.mp3"
     STORY_TTS_FILENAME = "elements/story_tts.mp3"
+
+    # Figure out if the writer is male or female
+    gpt = GptInterface(openai_key)
+    is_male = gpt.get_is_male(body)
+    print(f"Is the writer a male: {is_male}")
+
     # Initialize TTS generator
     tts = TtsGenerator(tts_key)
     
     # Generate a TTS of the story title
-    # tts.generate_tts(title, TITLE_TTS_FILENAME, True)
+    #tts.generate_tts(title, TITLE_TTS_FILENAME, is_male)
     # Generate whole story TTS
-    # tts.generate_tts(body, STORY_TTS_FILENAME, True)
+    #tts.generate_tts(body, STORY_TTS_FILENAME, is_male)
 
     # Get the length of the title and story in seconds
     title_length = get_audio_length(TITLE_TTS_FILENAME) / 1000
@@ -86,7 +93,7 @@ def main():
         save_video_to_file("elements/generated_video.mp4", vid_url)
 
         # upload the video to youtube
-        youtube_response = ggl_interface.upload_video("elements/generated_video.mp4", f"Part {part}! Like and Subscribe for more #Shorts", "This is a test upload to see if youtube api works", ["Shorts"], "22", "private")
+        youtube_response = ggl_interface.upload_video("elements/generated_video.mp4", f"Part {part}! Like and Subscribe for more #Shorts", "AITAH?", ["Shorts", "reddit", "AI", "drama", "AITAH"], "22", "public")
         print(f"Video ID: {youtube_response.get('id')}")
 
         # adjust counter variables for next loop through
