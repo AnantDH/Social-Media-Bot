@@ -7,7 +7,8 @@ class GptInterface:
 
 
     def get_is_male(self, story):
-        query = "Give me a one word response, either 'True,' or 'False,' if you think the following story is written by a male or female. True means you think it's a male, while False means you think its a female. Here's the story: "
+        query = "Give me a one word response, either 'True,' or 'False,' based on whether you think the writer of this story is a male ore a female. True means you think it's a male, while False means you think its a female. Here's the story: "
+        print(query + story)
         completion = self.client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
