@@ -24,7 +24,6 @@ class VideoGenerator:
             "scenes": [
                 {
                     "comment": "scene 1",
-                    "duration": 2,
                     "elements": [
                         {
                             "type": "audio",
@@ -45,19 +44,17 @@ class VideoGenerator:
                         {
                             "type": "text",
                             "style": "007",
-                            "x": -60,
-                            "y": -460,
+                            "x": 0,
+                            "y": -440,
                             "text": part,
                             "settings": {
-                                "shadow": 6,
+                                "text-shadow": "11px 11px black",
+                                "color": "#f20202",
                                 "font-size": "65px",
-                                "font-family": "Karla",
+                                "font-family": "Luckiest Guy",
                                 "font-weight": "400"
                             },
-                            "duration": -2,
-                            "rotate": {
-                                "angle": -15
-                            }
+                            "duration": -2
                         },
                         {
                             "type": "subtitles",
