@@ -1,6 +1,6 @@
 # Import necessary libraries
 import requests  # Used for making HTTP requests
-import json  # Used for working with JSON data
+
 
 class TtsGenerator:
 
@@ -12,10 +12,14 @@ class TtsGenerator:
     
     
     def generate_tts(self, text, output_filename, isMale):
-        if(isMale):
+        if(isMale == "True"):
+            # classic man tiktok ai voice
             VOICE_ID = "AaNV2Mbw4bC4yyB5KWqa"
         else:
-            VOICE_ID = "sASxGd32xItBb17GWuFk"
+            # annoying classic girl tiktok voice
+            # VOICE_ID = "sASxGd32xItBb17GWuFk"
+            # calmer female voice
+            VOICE_ID = "uoEK5rcVF3eqEjVWxcB7"
         
         TEXT_TO_SPEAK = text  # Text you want to convert to speech
         OUTPUT_PATH = output_filename  # Path to save the output audio file

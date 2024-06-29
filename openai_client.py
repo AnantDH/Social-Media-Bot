@@ -6,6 +6,7 @@ class GptInterface:
         self.client = OpenAI(api_key=key)
 
 
+    # method sends the query to gpt 3.5 turbo and parses the response
     def get_is_male(self, story):
         query = "Give me a one word response, either 'True,' or 'False,' based on whether you think the writer of this story is a male ore a female. True means you think it's a male, while False means you think its a female. Here's the story: "
         print(query + story)

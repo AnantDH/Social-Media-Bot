@@ -18,8 +18,8 @@ class VideoGenerator:
 
         json_payload = {
             "resolution": "custom",
-            "height": 1280,
-            "width": 720,
+            "height": 854,
+            "width": 480,
             "quality": "high",
             "scenes": [
                 {
@@ -39,13 +39,13 @@ class VideoGenerator:
                         {
                             "type": "audio",
                             "src": body_audio_link,
-                            "start": title_length
+                            "start": title_length + 0.3
                         },
                         {
                             "type": "text",
                             "style": "007",
                             "x": 0,
-                            "y": -440,
+                            "y": -220,
                             "text": part,
                             "settings": {
                                 "text-shadow": "11px 11px black",

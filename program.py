@@ -25,14 +25,13 @@ def main():
     gpt = GptInterface(openai_key)
     is_male = gpt.get_is_male(body)
     print(f"Is the writer a male: {is_male}")
-
     # Initialize TTS generator
     tts = TtsGenerator(tts_key)
-    
+
     # Generate a TTS of the story title
-    #tts.generate_tts(title, TITLE_TTS_FILENAME, is_male)
+    tts.generate_tts(title, TITLE_TTS_FILENAME, is_male)
     # Generate whole story TTS
-    #tts.generate_tts(body, STORY_TTS_FILENAME, is_male)
+    tts.generate_tts(body, STORY_TTS_FILENAME, is_male)
 
     # Get the length of the title and story in seconds
     title_length = get_audio_length(TITLE_TTS_FILENAME) / 1000
@@ -51,7 +50,7 @@ def main():
     # upload necessary files to google drive
     ggl_interface = GglInterface()
 
-    video_link = ggl_interface.upload_file("elements/minecraft_gameplay.mp4", "video/mp4")
+    video_link = ggl_interface.upload_file("elements/minecraft_gameplay3.mp4", "video/mp4")
     title_audio_link = ggl_interface.upload_file(TITLE_TTS_FILENAME, "audio/mpeg")
 
     # print sharable elements link
@@ -66,6 +65,7 @@ def main():
     curr_vid_start_point = 0
     part = 1
     for tts_body_file in tts_body_files:
+        tts_body_file = str(tts_body_file)
         # upload the segment of tts body needed for this video
         body_audio_link = ggl_interface.upload_file(tts_body_file, "audio/mpeg")
         print(f'Current body piece video being generated: {body_audio_link}')
