@@ -1,6 +1,7 @@
 from pydub import AudioSegment
 import requests
 import os
+from pathlib import Path
 
 def save_video_to_file(filename, vid_url):
     response = requests.get(vid_url, stream=True)
@@ -39,12 +40,18 @@ def get_audio_length(input_file):
 
 
 def get_files_in_dir(directory_name):
-    file_list = []
-    for filename in os.listdir(directory_name):
-        file_path = os.path.join(directory_name, filename)
-        if os.path.isfile(file_path):
-            file_list.append(file_path)
-    return file_list
+    # sort the files in order of name and returns the list of files
+    directory_path = Path('audiosegments/')
+    files = list(directory_path.glob('output_*'))
+    files.sort(key=lambda x: int(x.stem.split('_')[1]))
+    
+    return files
+    # file_list = []
+    # for filename in os.listdir(directory_name):
+    #     file_path = os.path.join(directory_name, filename)
+    #     if os.path.isfile(file_path):
+    #         file_list.append(file_path)
+    # return file_list
 
 
 
