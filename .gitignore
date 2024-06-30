@@ -5,3 +5,4 @@
 .\elements/
 .\audiosegments/
 .\venv/
+.\__pycache__/
