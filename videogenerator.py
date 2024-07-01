@@ -9,7 +9,12 @@ class VideoGenerator:
         self.x_api_key = secret_key
 
 
-    def generate_video(self, title_audio_link, body_audio_link, video_link, curr_vid_start_point, title_length, part):
+    def generate_video(self, is_test, title_audio_link, body_audio_link, video_link, curr_vid_start_point, title_length, part):
+        if is_test:
+            duration = 2
+        else:
+            duration = -1
+
         api_url = "https://api.json2video.com/v2/movies"
         headers = {
             "x-api-key": self.x_api_key,
@@ -18,12 +23,13 @@ class VideoGenerator:
 
         json_payload = {
             "resolution": "custom",
-            "height": 854,
+            "height": 852,
             "width": 480,
             "quality": "high",
             "scenes": [
                 {
                     "comment": "scene 1",
+                    "duration": duration,
                     "elements": [
                         {
                             "type": "audio",
