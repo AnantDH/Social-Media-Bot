@@ -69,7 +69,7 @@ class VideoGenerator:
                             "settings": {
                                 "font-family": "Luckiest Guy",
                                 "max-words-per-line": 1,
-                                "outline-width": 7,
+                                "outline-width": 4,
                                 "font-size": 70,
                                 "position": "center-center"
                             }
@@ -78,10 +78,73 @@ class VideoGenerator:
                 }
             ]
         }
-        
         print("Making the call to JSON2VIDEO...")
         response = requests.post(api_url, headers=headers, data=json.dumps(json_payload))
+        return self.check_vid_response(response)
+    
+
+    def generate_video(self, is_test, title_audio_link, body_audio_link, video_link, curr_vid_start_point, title_length):
+        if is_test:
+            duration = 2
+        else:
+            duration = -1
+
+        api_url = "https://api.json2video.com/v2/movies"
+        headers = {
+            "x-api-key": self.x_api_key,
+            "Content-Type": "application/json"
+        }
+
+        json_payload = {
+            "resolution": "custom",
+            "height": 852,
+            "width": 480,
+            "quality": "high",
+            "scenes": [
+                {
+                    "comment": "scene 1",
+                    "duration": duration,
+                    "elements": [
+                        {
+                            "type": "audio",
+                            "src": title_audio_link
+                        },
+                        {
+                            "type": "video",
+                            "src": video_link,
+                            "duration": -2,
+                            "volume": 0,
+                            "seek": curr_vid_start_point,
+                            "height": 852,
+                            # "width": 480
+                            "x": -460
+                        },
+                        {
+                            "type": "audio",
+                            "src": body_audio_link,
+                            "start": title_length + 0.3
+                        },
+                        {
+                            "type": "subtitles",
+                            "language": "en",
+                            "settings": {
+                                "font-family": "Luckiest Guy",
+                                "max-words-per-line": 1,
+                                "outline-width": 4,
+                                "font-size": 70,
+                                "position": "center-center"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+        print("Making the call to JSON2VIDEO...")
+        response = requests.post(api_url, headers=headers, data=json.dumps(json_payload))
+        return self.check_vid_response(response)
         
+        
+    def check_vid_response(self, response):
         if response.status_code == 200:
             response_data = response.json()
             if response_data.get("success"):
