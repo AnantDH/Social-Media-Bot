@@ -8,8 +8,7 @@ class VideoGenerator:
     def __init__(self, secret_key) -> None:
         self.x_api_key = secret_key
 
-
-    def generate_video(self, is_test, title_audio_link, body_audio_link, video_link, curr_vid_start_point, title_length, part):
+    def generate_segmented_video(self, is_test, title_audio_link, body_audio_link, video_link, curr_vid_start_point, title_length, part):
         if is_test:
             duration = 2
         else:
@@ -40,7 +39,9 @@ class VideoGenerator:
                             "src": video_link,
                             "duration": -2,
                             "volume": 0,
-                            "seek": curr_vid_start_point
+                            "seek": curr_vid_start_point,
+                            "height": 852,
+                            "width": 480
                         },
                         {
                             "type": "audio",

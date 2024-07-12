@@ -9,17 +9,6 @@ class RedditScraper:
         self.reddit = praw.Reddit(client_id=client_id, client_secret=client_secret, user_agent=user_agent)
 
     
-    # def get_controversial(self, sub_name, num_posts):
-    #     library = dict()
-    #     subreddit = self.reddit.subreddit(sub_name)
-    #     for submission in subreddit.controversial(limit=num_posts):
-    #         title = submission.title
-    #         body = submission.selftext
-    #         score = submission.score
-    #         library[title] = (body, score)
-    #     return library
-    
-    
     def get_nth_hot(self, sub_name, n):
         subreddit = self.reddit.subreddit(sub_name)
 
@@ -35,6 +24,9 @@ class RedditScraper:
         # If no non-pinned post is found, return None
         return None
     
+    def get_url(self, url):
+        submission = self.reddit.submission(url=url)
+        return submission.title, submission.selftext
 
     # def get_hot(self, sub_name, num_posts):
     #     library = dict()
@@ -46,28 +38,3 @@ class RedditScraper:
     #         library[title] = (body, score)
     #     return library
     
-
-    # def get_new(self, sub_name, num_posts):
-    #     library = dict()
-    #     subreddit = self.reddit.subreddit(sub_name)
-    #     for submission in subreddit.new(limit=num_posts):
-    #         title = submission.title
-    #         body = submission.selftext
-    #         score = submission.score
-    #         library[title] = (body, score)
-    #     return library
-    
-
-    # def get_top(self, sub_name, num_posts):
-    #     library = dict()
-    #     subreddit = self.reddit.subreddit(sub_name)
-    #     for submission in subreddit.top(limit=num_posts):
-    #         title = submission.title
-    #         body = submission.selftext
-    #         score = submission.score
-    #         library[title] = (body, score)
-    #     return library
-    
-
-
-
