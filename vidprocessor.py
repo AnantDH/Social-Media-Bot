@@ -46,35 +46,3 @@ def get_files_in_dir(directory_name):
     files.sort(key=lambda x: int(x.stem.split('_')[1]))
     
     return files
-    # file_list = []
-    # for filename in os.listdir(directory_name):
-    #     file_path = os.path.join(directory_name, filename)
-    #     if os.path.isfile(file_path):
-    #         file_list.append(file_path)
-    # return file_list
-
-
-
-# Splits a given mp3 file into two segments, one which is the specified length, the other is the rest of the file
-# def split_audio(input_file, segment_duration):
-#     audio = AudioSegment.from_mp3(input_file)
-    
-#     # get the filename without the .mp3 part
-#     base_filename = input_file.rsplit(".", 1)[0]
-
-#     # get datetime to make unique output files
-#     timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-
-#     # specify the segments of the audio we want in the two segments
-#     first_segment = audio[:segment_duration]
-#     second_segment = audio[segment_duration:]
-
-#     # save two new segment filenames
-#     segment1_filename = f"{base_filename}_part1_{timestamp}.mp3"
-#     segment2_filename = f"{base_filename}_part2_{timestamp}.mp3"
-
-#     # export the segments
-#     first_segment.export(segment1_filename, format="mp3")
-#     second_segment.export(segment2_filename, format="mp3")
-
-#     return segment1_filename, segment2_filename
