@@ -126,7 +126,7 @@ def generate_video(is_segmented, tts_body_files, ggl_interface, title_audio_link
             print(f"Video ID: {youtube_response.get('id')}")
 
         # adjust counter variables for next loop through
-        curr_vid_start_point += 59.5
+        curr_vid_start_point += get_audio_length(tts_body_file)
         part += 1
 
 

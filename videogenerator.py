@@ -97,8 +97,8 @@ class VideoGenerator:
 
         json_payload = {
             "resolution": "custom",
-            "height": 852,
-            "width": 480,
+            "height": 1920,
+            "width": 1080,
             "quality": "high",
             "scenes": [
                 {
@@ -114,10 +114,7 @@ class VideoGenerator:
                             "src": video_link,
                             "duration": -2,
                             "volume": 0,
-                            "seek": curr_vid_start_point,
-                            "height": 852,
-                            # "width": 480
-                            "x": -460
+                            "seek": curr_vid_start_point
                         },
                         {
                             "type": "audio",

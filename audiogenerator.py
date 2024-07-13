@@ -14,7 +14,8 @@ class TtsGenerator:
     def generate_tts(self, text, output_filename, isMale):
         if(isMale == "True"):
             # classic man tiktok ai voice
-            VOICE_ID = "AaNV2Mbw4bC4yyB5KWqa"
+            #VOICE_ID = "AaNV2Mbw4bC4yyB5KWqa"
+            VOICE_ID = "rI39Uj7m72aZUbERXvuF"
         else:
             # annoying classic girl tiktok voice
             # VOICE_ID = "sASxGd32xItBb17GWuFk"
