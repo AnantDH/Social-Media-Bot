@@ -126,7 +126,7 @@ def generate_video(is_segmented, tts_body_files, ggl_interface, title_audio_link
             print(f"Video ID: {youtube_response.get('id')}")
 
         # adjust counter variables for next loop through
-        curr_vid_start_point += get_audio_length(tts_body_file)
+        curr_vid_start_point += (get_audio_length(tts_body_file) / 1000)
         part += 1
 
 
@@ -137,7 +137,7 @@ def generate_test_vid(is_segmented, tts_body_files, ggl_interface, title_audio_l
     print(f'Test audio piece being generated: {body_file_link}')
 
     if is_segmented:    
-        project_id = v_generator.generate_segmented_video(True, title_audio_link, body_file_link, video_link, 0, title_length, 0)
+        project_id = v_generator.generate_segmented_video(True, title_audio_link, body_file_link, video_link, 0, title_length, "Part 0")
     else:
         project_id = v_generator.generate_video(True, title_audio_link, body_file_link, video_link, 0, title_length)
     

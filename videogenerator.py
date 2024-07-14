@@ -22,8 +22,8 @@ class VideoGenerator:
 
         json_payload = {
             "resolution": "custom",
-            "height": 852,
-            "width": 480,
+            "height": 1920,
+            "width": 1080,
             "quality": "high",
             "scenes": [
                 {
@@ -40,8 +40,8 @@ class VideoGenerator:
                             "duration": -2,
                             "volume": 0,
                             "seek": curr_vid_start_point,
-                            "height": 852,
-                            "width": 480
+                            "height": 1920,
+                            "width": 1080
                         },
                         {
                             "type": "audio",
@@ -52,12 +52,12 @@ class VideoGenerator:
                             "type": "text",
                             "style": "007",
                             "x": 0,
-                            "y": -220,
+                            "y": -330,
                             "text": part,
                             "settings": {
-                                "text-shadow": "11px 11px black",
+                                "text-shadow": "5px 5px black",
                                 "color": "#f20202",
-                                "font-size": "65px",
+                                "font-size": "130px",
                                 "font-family": "Luckiest Guy",
                                 "font-weight": "400"
                             },
@@ -70,9 +70,9 @@ class VideoGenerator:
                                 "font-family": "Luckiest Guy",
                                 "max-words-per-line": 1,
                                 "outline-width": 4,
-                                "font-size": 70,
+                                "font-size": 110,
                                 "position": "center-center"
-                            }
+                            },
                         }
                     ]
                 }
@@ -128,7 +128,7 @@ class VideoGenerator:
                                 "font-family": "Luckiest Guy",
                                 "max-words-per-line": 1,
                                 "outline-width": 4,
-                                "font-size": 70,
+                                "font-size": 110,
                                 "position": "center-center"
                             }
                         }
