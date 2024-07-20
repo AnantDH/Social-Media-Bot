@@ -15,12 +15,19 @@ class TtsGenerator:
         if(isMale == "True"):
             # classic man tiktok ai voice
             #VOICE_ID = "AaNV2Mbw4bC4yyB5KWqa"
-            VOICE_ID = "rI39Uj7m72aZUbERXvuF"
+            #older man tiktok ai voice
+            # VOICE_ID = "rI39Uj7m72aZUbERXvuF"
+            #middle age man
+            VOICE_ID = 'VRu3HrnXluCKJzNyQLOR'
         else:
             # annoying classic girl tiktok voice
             # VOICE_ID = "sASxGd32xItBb17GWuFk"
             # calmer female voice
-            VOICE_ID = "uoEK5rcVF3eqEjVWxcB7"
+            #VOICE_ID = "uoEK5rcVF3eqEjVWxcB7"
+            # middle aged female
+            #VOICE_ID = "SNmnZJ9XqeeU9DgLwShw"
+            #young female voice
+            VOICE_ID = "8eHymHLObY8P6BBCCMYM"
         
         TEXT_TO_SPEAK = text  # Text you want to convert to speech
         OUTPUT_PATH = output_filename  # Path to save the output audio file

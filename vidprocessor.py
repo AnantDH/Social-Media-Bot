@@ -84,7 +84,7 @@ def generate_video(is_segmented, tts_body_files, ggl_interface, title_audio_link
     # start video generation process
     print("Now generating video...")
     # initialize counter to keep track of where each segment needs to start
-    curr_vid_start_point = 0
+    curr_vid_start_point = 180
     part = 1
 
     to_upload = input("Would you like the generated segment(s) to be uploaded to youtube? y/n ")
