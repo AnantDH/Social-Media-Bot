@@ -1,8 +1,8 @@
 # .gitignore
 .\config.py
-.\token.json
-.\credentials.json
+.\json_secrets/
 .\elements/
 .\audiosegments/
 .\venv/
 .\__pycache__/
+.\generated/

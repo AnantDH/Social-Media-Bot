@@ -1,6 +1,6 @@
 from config import client_id, client_secret, tts_key, video_generator_key, openai_key
 from redditscraper import RedditScraper
-from audiogenerator import TtsGenerator
+# from audiogenerator import TtsGenerator
 from googleinterface import GglInterface
 from videogenerator import VideoGenerator
 from openai_client import GptInterface
@@ -37,11 +37,15 @@ def main():
 
     tts_input = input("Would you like to generate tts for this story or use existing ones generated? y/n ")
     
+    ggl_interface = GglInterface()
     
     if tts_input.lower() == "y":
-        tts = TtsGenerator(tts_key)
-        tts.generate_tts(title, TITLE_TTS_FILENAME, is_male)
-        tts.generate_tts(body, STORY_TTS_FILENAME, is_male)
+        # tts = TtsGenerator(tts_key)
+        # tts.generate_tts(title, TITLE_TTS_FILENAME, is_male)
+        # tts.generate_tts(body, STORY_TTS_FILENAME, is_male)
+        ggl_interface.generate_tts(title, TITLE_TTS_FILENAME, is_male)
+        ggl_interface.generate_tts(body, STORY_TTS_FILENAME, is_male)
+
 
     # Get the length of the title and story in seconds
     title_length = vidprocessor.get_audio_length(TITLE_TTS_FILENAME) / 1000
@@ -60,7 +64,6 @@ def main():
             tts_body_files = vidprocessor.get_files_in_dir("audiosegments/")
     
     # upload necessary files to google drive
-    ggl_interface = GglInterface()
 
     gameplay_filepath = input("Enter the local filepath which points to the desired gameplay video: ")
 
